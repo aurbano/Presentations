@@ -1,0 +1,298 @@
+
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>WiMAX</title>
+		
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/aurbano.css" id="theme">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		<style type="text/css">
+		li{
+			margin-bottom:20px !important;
+		}
+		</style>
+	</head>
+
+	<body>
+		<div style="position:absolute; top:10px; right:10px; z-index:99;"><img src="img/logoUniovi.png" style="border:none; box-shadow:none"/></div>
+		<div class="reveal">
+			<div class="slides">
+				<section data-transition="cube">
+					<h1>Handover <small>en</small> WiMAX <small>y entre</small> WiMAX <small>y</small> WLAN</h1>
+					<p></p>
+						<small style="margin-top:30px;">
+							Alejandro Urbano Álvarez<br />
+							<span style="font-size:0.8em; margin-top:20px; display:block">Redes y Servicios Móviles</span>
+						</small>
+				</section>
+				<section data-transition="slide">
+					<h2>Estructura de la presentación</h2>
+					<ul style="margin-top:20px;">
+						<li>Introducción</li>
+						<li>Ventajas</li>
+						<li>Funcionamiento</li>
+						<li>WiMAX vs WLAN</li>
+						<li>Handovers</li>
+						<li>Tipos de Handover</li>
+						<li>Soluciones</li>
+					</ul>
+				</section>
+				<section data-transition="cube">
+					<section data-transition="cube">
+						<h2>Introducción: WiMAX</h2>
+						
+						<ul>
+							<li>Tecnología de red inalámbrica de banda ancha.</li>
+							<li>Cobertura amplia</li>
+							<li>Garantía de calidad de servicio (QoS)</li>
+							<li>Situado entre 3G y 4G en cuanto a velocidad</li>
+						</ul>
+					</section>
+					<section data-transition="cube">
+						<h2>Ventajas</h2>
+						<p>Uno de los problemas de WiMAX era que no funcionaba del todo bien en movilidad</p>
+						<p>Aunque en Mobile WiMAX (802.16e) es posible desplazarse hasta 120km/h, en células de hasta 70km con tasas de transferencia de 10-30Mbps<small>[1]</small></p>
+						<p>Existe el problema del Handover entre estaciones.</p>
+						<p>&nbsp;</p>
+						<p align="left"><small>[1] Q.B. Mussabbir, W. Yao, Z. Niu, X. Fu, Optimized FMIPv6 Using IEEE 802.21 MIH Services in Vehicular Networks, IEEE Transactions on Vehicular Technology Nov. 2007</small></p>
+					</section>
+				</section>
+				<section data-transition="cube">
+					<section>
+						<h2>Funcionamiento</h2>
+						
+						<ul>
+							<li>WiMAX usa MIMO y SOFDMA<small>[1]</small></li>
+							<ul>
+								<li><b>MIMO</b>: Varias antenas en receptor y transmisor</li>
+								<li><b>SOFDMA</b>: Mecanismo de multiplexación en frecuencia</li>
+							</ul>
+							<li>Esto permite utilizar de manera más eficiente el espectro</li>
+						</ul>
+						<p>&nbsp;</p>
+						<p align="left"><small>[1] Senza Fili Consulting, Fixed, nomadic, portable and mobile applications for 802.16-2004 and 802.16e WiMAX networks, Nov 2005</small></p>
+					</section>
+					
+					<section>
+						<h2>WiMAX vs WLAN</h2>
+						<ul>
+							<li>WLAN usa OFDM, que difere en el sistema de repartición de subportadoras.</li>
+							<li>Dicho de otra manera, en OFDM se comparte la velocidad de descarga, y en OFDMA la asigna según requisitos de cada usuario.</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section data-transition="cube">
+					<section>
+						<h2>Handovers</h2>
+						<ul>
+							<li>En un sistema móvil se debe permitir cambiar de estación base</li>
+							<li>Lo ideal sería una transferencia transparente al usuario</li>
+							<ul>
+								<li>Esto implica que se debe mantener la QoS, sesión y niveles de servicio.</li>
+							</ul>
+							<li>Puede iniciarse por: Posición y velocidad, calidad del enlace, congestión, batería...<small>[1]</small></li>
+						</ul>
+						<p>&nbsp;</p>
+						<p align="left"><small>[1] Albanese, R., Handover issues in heterogeneous environments: Vertical handover between WiMAX and WiFi networks, Mar 2006.</small></p>
+					</section>
+					<section>
+						<h2>Tipos de Handover<small>[1]</small></h2>
+						<ul>
+							<li><b>Horizontal:</b> Únicamente cambia la estación base, manteniendo la IP.</li>
+							<li><b>Vertical:</b> Cambia la IP.</li>
+						</ul>
+						<p>&nbsp;</p>
+						<p align="left"><small>[1] R. Q. Hu, D. Paranchych, M. Fong, G. Wu, On the Evolution of Handoff Management and Network Architecture in WiMAX, March 2007.</small></p>
+					</section>
+					<section>
+						<h2>Handover horizontal</h2>
+						<ul>
+							<li>Realizado entre estaciones con la misma tecnología</li>
+							<li>El UE inicia el handover, por alguna de las razones vistas</li>
+							<li>Al basarse en OFDMA normalmente se hace un Hard Handover (HHO)</li>
+							<ul>
+								<li>Básicamente finaliza y reinicia la conexión en otra estación</li>
+								<li>Típicamente hay pérdida de paquetes durante aproximadamente 1s o más</li>
+							</ul>
+							<li>Existen implementaciones que permiten Soft Handover</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Handover vertical</h2>
+						<ul>
+							<li>Entre estaciones con diferentes tecnologías</li>
+							<li>WiMAX y WLAN difieren en QoS, protocolos, tecnologías...</li>
+							<li>Se desarrolló Mobile IP como solución</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section data-transition="cube">
+					<section data-transition="cube">
+						<h2>Handover entre WiMAX y WLAN</h2>
+						<ul>
+							<li>Mobile IP</li>
+							<li>IP Multicast</li>
+							<li>MIH</li>
+							<li>FMIPv6</li>
+							<li>HMIPv6</li>
+							<li>SIP</li>
+						</ul>
+					</section>
+					
+					<section data-transition="cube">
+						<h2>Mobile IP<small>[1]</small></h2>
+						<ul>
+							<li>Solución tipica para comunicaciones en diferentes redes.</li>
+							<li>Cuando un dispositivo cambia de red, recibe un identificador (COA)</li>
+							<li>A partir de ese momento, el tráfico al dispositivo se redirige a la otra red usando el COA</li>
+							<li>Gracias a esto no se aprecia un cambio de IP, y no se pierden las conexiones (SSH, streaming...)</li>
+							<li>Existen dos versiones, Mobile IPv4 y IPv6 (funcionamiento similar, bastantes mejoras) [IETF3]</li>
+						</ul>
+						<p>&nbsp;</p>
+						<p align="left"><small>[1] RFC3344, C. Perkins, IP mobility support for IPv4 nodes, August 2007.</small></p>
+					</section>
+					
+					<section data-transition="cube">
+						<h2>IP Multicast<small>[1]</small></h2>
+						<ul>
+							<li>Solución "poco inteligente"</li>
+							<li>Los mensajes se envian a todas las Estaciones Móviles</li>
+							<li>La que tenga al cliente conectado le envía el mensaje.</li>
+							<li>En un handover el UE notifica a las estaciones nueva y antigua del cambio.</li>
+						</ul>
+						<p>&nbsp;</p>
+						<p align="left"><small>[1] I. Romdhani, J. Munoz, H. Bettahar, A. Bouabdallah, Mobile Multicast Route Optimisation, June 2006.</small></p>
+					</section>
+					
+					<section data-transition="cube">
+						<h2>FMIPv6</h2>
+						<ul>
+							<li>Se basa en Mobile IPv6</li>
+							<li>Mejora la latencia existente (Fast Mobile IPv6)</li>
+							<li>La diferencia es que en FMIPv6 se espera hasta el último momento para desconectarse.</li>
+							<li>Se utiliza un paquete de asociación rápida (Fast Binding Update) para notificar a la estación antigua.</li>
+						</ul>
+						<p>&nbsp;</p>
+						<p align="left"><small>S. Pack and Y. Choi, Performance Analysis of Fast Handover in Mobile IPv6 Networks, Personal Wireless Communications</small></p>
+					</section>
+					
+					<section data-transition="cube">
+						<h2>HMIPv6<small>[1]</small></h2>
+						<ul>
+							<li>Mejora Mobile IP utilizando jerarquías</li>
+							<li>Se introducen dispositivos MAP (Punto de Anclaje Móvil), que hace de router</li>
+							<li>Básicamente gestiona el proceso de reenviar el tráfico cuando el UE se mueve</li>
+							<li>El funcionamiento detallado es mucho más complejo, pero transparente al usuario</li>
+						</ul>
+						<p>&nbsp;</p>
+						<p align="left"><small>[1] H. Soliman, C. Catelluccia, K. El Malki, L. Bellier, Hierarchical Mobile IPv6 mobility management, December 2004</small></p>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h2>Comparación de sistemas</h2>
+						<table>
+							<tr>
+								<td></td>
+								<td>Latencia</td>
+								<td>Complejidad</td>
+								<td>Escalabilidad</td>
+							</tr>
+							<tr>
+								<td><b>Mobile IP</b></td>
+								<td><span style="color:#eb0000">Alta</span></td>
+								<td><span style="color:#D66B00">Media</span></td>
+								<td><span style="color:#D66B00">Media</span></td>
+							</tr>
+							<tr>
+								<td><b>Multicast</b></td>
+								<td><span style="color:#3EA800">Baja</span></td>
+								<td><span style="color:#3EA800">Baja</span></td>
+								<td><span style="color:#eb0000">Alta</span></td>
+							</tr>
+							<tr>
+								<td><b>MIH</b></td>
+								<td><span style="color:#3EA800">Baja</span></td>
+								<td><span style="color:#eb0000">Alta</span></td>
+								<td><span style="color:#eb0000">Alta</span></td>
+							</tr>
+							<tr>
+								<td><b>FMIPv6</b></td>
+								<td><span style="color:#D66B00">Media</span></td>
+								<td><span style="color:#eb0000">Alta</span></td>
+								<td><span style="color:#D66B00">Media</span></td>
+							</tr>
+							<tr>
+								<td><b>HMIPv6</b></td>
+								<td><span style="color:#eb0000">Alta</span></td>
+								<td><span style="color:#eb0000">Alta</span></td>
+								<td><span style="color:#D66B00">Media</span></td>
+							</tr>
+							<tr>
+								<td><b>SIP</b></td>
+								<td><span style="color:#3EA800">Baja</span></td>
+								<td><span style="color:#3EA800">Baja</span></td>
+								<td><span style="color:#eb0000">Alta</span></td>
+							</tr>
+						</table>
+						
+						<p><small>Paper</small></p>
+					</section>
+					
+				</section>
+				
+				<section>
+					<h2>Conclusión</h2>
+					<p>SIP y FMIPv6 son las mejores soluciones basándose en esta comparación. En un caso real se utilizaría una combinación de varias.</p>
+					<p>Aunque WiMAX dificilmente pueda competir con LTE en el mercado móvil, tiene mucho juego en el campo de las WAN, ya sean públicas o privadas.</p>
+					<p>El hecho de permitir handover a WLAN le daría mucho juego en determinadas aplicaciones.</p>
+				</section>
+				
+				<section>
+					<h1>Muchas Gracias por su tiempo</h1>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				overview: true,
+
+				theme: Reveal.getQueryHash().theme, 
+				transition: Reveal.getQueryHash().transition || 'default', 
+				backgroundTransition: 'slide',
+
+				dependencies: [
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
