@@ -1,0 +1,328 @@
+
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>SimuLTE</title>
+
+	
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		<style type="text/css">
+		li{
+			margin-bottom:20px !important;
+		}
+		</style>
+	</head>
+
+	<body>
+		<div style="position:absolute; top:10px; right:10px; z-index:99;"><img src="img/logoUniovi.bmp" style="border:none; box-shadow:none"/></div>
+		<div class="reveal">
+			<div class="slides">
+				<section data-transition="cube" data-background="#f1f1f1">
+					<img src="img/logo.png" style="border:none; box-shadow:none"/>
+					<p></p>
+						<small style="color:#111 !important;">
+							<p style="color:#111 !important; font-weight:bold;">Presentado por:</p>
+							Pablo Álvarez González<br />
+							Alejandro Urbano Álvarez<br />
+							Nicolás Lozano Argüelles
+							<br>
+							
+						</small>
+				</section>
+				<section data-transition="slide">
+					<h2>¿Qué es SimuLTE™?</h2>
+					<ul>
+						<li>
+						SimuLTE ™ es una herramienta de simulación que permite la evaluación en sistemas LTE.
+						</li>
+						<li>Tiene como base INET-Framework, y se puede utilizar de manera independiente o usando el IDE Omnet++</li>
+					
+					</ul>
+					
+					<aside class="notes">
+						* Se ​​actualiza constantemente para ser compatible con las últimas versiones de Omnet++, con el fin de acceder
+						a las tecnologías para la simulación de redes móviles.
+						* Repositorio Github al dia
+					</aside>
+				</section>
+				<section data-transition="slide" data-background="#007777">
+					<section data-transition="cube">
+						<h1>Tecnología LTE</h1>
+						
+						<aside class="notes">
+							Para seguir la presentacion introducimos LTE, ya que en clase no se ha visto mucho
+						</aside>
+					</section>
+					<section data-transition="cube">
+						<h2>Lo básico</h2>
+						<ul>
+							<li>Se conoce en el mercado como "4G LTE"</li>
+							<li>Está siendo especificado por el 3GPP</li>
+							<li>El estándar original no cumple los requisitos de la ITU-R para ser cuarta generación</li>
+							<li>Aparece LTE-A para solventar ese problema</li>
+						</ul>
+						<aside class="notes">
+							* 4G LTE (Long Term Evolution), aceptado como la siguiente generación por los fabricantes.<br />
+							* 3GPP: Agrupacion de asociaciones de telecom. Surge para idear el 3G<br />
+							* Estandar original: 2008, no cumple requisitos de ITU-R, aunque lo aceptan<br />
+							* LTE-A(vanzado): 2011, cumple los requisitos y es compatible.
+						</aside>
+					</section>
+					
+					<section data-transition="cube">
+						<h2>Funcionamiento</h2>
+						<ul>
+							<li>Lo más importante: Usa el protocolo IP</li>
+							<li>eNodeB: Equivale a la BTS en GSM fusionada con el BSC, simplificando el sistema.</li>
+							<li>e-UTRA: Es la tecnología detrás de todo, equivale a HDSPA en 3G</li>
+						</ul>
+						<aside class="notes">
+							* Explicamos por encima el funcionamiento de LTE para entender qué simularemos.<br />
+							* Usar IP permite paquetes mucho mayores, y eso mejora la velocidad del sistema.<br />
+							* eNodeB: La clave de LTE. e = evolucionado. Equivale a la BTS+BSC, red mas simple.<br />
+							* e-UTRAN: Interfaz/Tecnologia de red. Usa diferentes protocolos a 3G. Lo vemos ahora en detalle<br />
+						</aside>
+					</section>
+					<section data-transition="cube">
+						<h2>e-UTRAN</h2>
+						<img src="img/EUTRAN.png" align="left" />
+						<p>La pila de protocolos (Protocol Stack) no es esencial para llevar a cabo simulaciones, por lo que simplemente mencionamos cada una brevemente.</p>
+						<aside class="notes">
+							Similar al modelo OSI<br />
+							<ul style="width:auto">
+								<li>Capa física: Crea el enlace con el móvil, llamado UE en general (User Equipment)</li>
+								<li>MAC: Gestiona prioridades, errores y multiplexación.</li>
+								<li>RLC: Transporta las PDUs (Protocol Data Unit), tiene 3 modos según QoS de la conexión.</li>
+								<li>PDCP: Cifrado, compresión, detecta duplicados</li>
+								<li>RRC: QoS, handover entre eNB</li>
+								<li>NAS e IP: Conectan con la tecnología de red. NAS: Señalizacion, IP: Datos. La red usa tecnologia EPC, que veremos ahora.</li>
+							</ul>
+						</aside>
+					</section>
+					<section data-transition="cube">
+						<h2>EPC</h2>
+						<img src="img/Esquema EPC.png" />
+						<aside class="notes">
+							<ul style="width:auto">
+								<li>EPC (Conmutacion de Paquetes Evolucionada) es el núcleo de la red</li>
+								<li>Equivale a conmutacion de circuitos en GSM</li>
+								<li>Usar conmutacion de paquetes y protocolo IP permite mas flexibilidad, puedes cambiar la ruta si hay congestion</li>
+								<li>Mejora la latencia y el ancho de banda</li>
+								<li>HSS (Home Subscriber Server): HLR</li>
+								<li>Serving GW: (GateWay) "router" entre UE(Equipo de Usuario) y EPC</li>
+								<li>PDN GW (Packet Data Network): Conecta el EPC con redes externas (Internet). A veces ambos GW son uno</li>
+								<li>MME: Señalizacion, en EPC va separado de los datos. Usa el NAS, mejora la flexibilidad y la latencia.</li>
+							</ul>
+						</aside>
+					</section>
+					<section data-transition="cube">
+						<h2>GTP Network</h2>
+						<img src="img/GTP.png" style="background:white" />
+						<aside class="notes">
+							<ul style="width:auto">
+								<li>Protocolo basado en IP, sobre UDP o TCP</li>
+								<li>El paquete del UE se encapsula en un paquete GTP</li>
+								<li>El paquete GTP lleva las IP de destino y del eNode</li>
+								<li>S1 es una tecnologia de enlace, irrelevante para el simulador</li>
+							</ul>
+						</aside>
+					</section>
+				</section>
+				<section data-transition="slide">
+					<section data-transition="cube">
+						<h2>¿Qué hace SimuLTE™?</h2>
+						<br />
+							<ul>
+								<li>Evalúa el consumo de la red y mejora su eficiencia.</li>
+								<li>Simula los escenarios necesarios para el dimensionado de redes.</li>
+								<li>Analiza prestaciones previas al estándar.</li>
+								<li>Experimenta con diseños y soluciones alternativas.</li>
+							</ul>
+						<aside class="notes">
+							¿Para que queremos un simulador?
+							<ul>
+								<li>La clave es ahorrar!</li>
+								<li>En energia, optimizando los recursos</li>
+								<li>Dimensionar adecuadamente evita redundancia!</li>
+								<li>Comprueba que los estandares cumplen espectativas</li>
+								<li>Prueba posibles soluciones mejores</li>
+							</ul>
+						</aside>
+					</section>
+					<section data-transition="cube" data-background="#55aa00">
+						<h2>Eficiencia energética</h2>
+						<p>Se simula el consumo de cada componente de la red, permitiendo localizar los puntos de menor rendimiento.</p>
+						<img src="img/eco.png" style="box-shadow:none; border:none; background:transparent" />
+					</section>
+				</section>
+				
+				<section data-transition="slide" data-background="rgb(140, 71, 56)">
+					<section data-transition="cube">
+						<h1>Trabajando con SimuLTE™</h1>
+						<aside class="notes">
+							Vamos a pasar por todos los pasos, instalacion, configuracion y simulacion.
+						</aside>
+					</section>
+					
+					<section data-transition="cube">
+						<h2>Requisitos</h2>
+						<br />
+						<ul>
+							<li>OMNet++ (v4.2+)</li>
+							<li>INET-Framework (v2.1+)</li>
+						<ul>
+						<aside class="notes">
+							En la presentación tenemos instalado OMNET 4.3 e INET 2.2.0, sin problemas en el funcionamiento.
+						</aside>
+					</section>
+					
+					<section data-transition="cube">
+						<h2>Instalación</h2>
+						<pre><code data-trim>
+#!/bin/sh
+
+### Estando en la carpeta del workspace del Simulte
+### Extraemos el proyecto
+unzip simulte-master.zip
+
+### Nos introducimos en el directorio de Simulte
+cd simulte-master
+
+### Generamos los MakeFiles
+make makefiles
+
+### Compilar el ejecutable de Simulte
+make
+						</code></pre>
+						<aside class="notes">
+							Como se ve, la instalacion es la estandar de un sistema Unix<br />
+							Desde el IDE da ciertos problemas en Windows, por lo que es recomendable usar la linea de comandos.
+						</aside>
+					</section>
+					
+					<section data-transition="cube">
+						<h2>Simulación</h2>
+						<p>Dispone de varias simulaciones de prueba:</p>
+						<br />
+						<ul>
+							<li>Single-Cell/Multi-Cell</li>
+							<li>Redes GTP (Protocolo IP sobre GSM y UMTS)</li>
+							<li>Red E-UTRAN/EPC (LTE en Europa)</li>
+						</ul>
+						<aside class="notes">
+							Es interesante llevarlas a cabo para verificar y comprender el funcionamiento del framework.
+						</aside>
+					</section>
+					<section data-transition="cube">
+						<h2>Single-Cell</h2>
+						<img src="img/singlecell.png" />
+						
+						<aside class="notes">
+							Tenemos una celula (eNodeB) que actua de BTS/BTC.<br />
+							Un UE que representa un usuario<br />
+							Un router y un servidor => SGW+PDN (Packet Data Network) GW y External Network<br />
+							Al simular el UE se conecta con lo de la izda (binder, configurator)<br />
+							Binder representa MME (NAS, señalizacion)
+						</aside>
+					</section>
+					<section data-transition="cube">
+						<h2>Multi-Cell</h2>
+						<img src="img/multicell.png" />
+						<aside class="notes">
+							Lo mismo pero con varias celulas y UE.<br />
+							Cada UE usara la mejor celula, y en caso de moverse habria un handover.<br />
+							Cada eNodeB usa un SGW diferente, aunque podrian usar el mismo.<br />
+						</aside>
+					</section>
+					<section data-transition="cube">
+						<h2>GTP Network</h2>
+						<img src="img/gtpnetwork.png" />
+						<aside class="notes">
+							Para simular el sistema GTP se usa una red normal<br />
+							Equivale a NAT, es decir, cuando sale de tu router cercano usa su IP. Y por la red circula esa IP + la de destino.<br />
+						</aside>
+					</section>
+					<section data-transition="cube">
+						<h2>e-UTRAN/EPC</h2>
+						<img src="img/epceutran.png" />
+						<aside class="notes">
+							UE+eNB hasta SGW => EUTRAN<br />
+							Al llegar ahi cambia a EPC y viaja hasta el PGW.<br />
+							De ahi sale a la red externa (Internet)<br />
+							A partir de ahi normal.<br />
+						</aside>
+					</section>
+				</section>
+
+				<section>
+					<h1>Muchas Gracias por su tiempo</h1>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			/*Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, 
+				transition: Reveal.getQueryHash().transition || 'default', 
+
+				dependencies: [
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});*/
+			
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, 
+				transition: Reveal.getQueryHash().transition || 'default', 
+				backgroundTransition: 'slide',
+
+				multiplex: {
+					// Example values. To generate your own, see the socket.io server instructions.
+					secret: null, // null so the clients do not have control of the master presentation
+					id: "888980f3379ab1dd", // id, obtained from socket.io server
+					url: 'c.uplei.com:9001' // Location of socket.io server
+				},
+
+				// Don't forget to add the dependencies
+				dependencies: [
+					{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.10/socket.io.min.js', async: true },
+					{ src: 'plugin/multiplex/client.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+
+					// other dependencies...
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

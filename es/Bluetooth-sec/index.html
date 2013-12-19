@@ -1,0 +1,346 @@
+
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Bluetooth&reg; Security</title>
+		
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/aurbano.css" id="theme">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		<style type="text/css">
+		li{
+			margin-bottom:20px !important;
+		}
+		</style>
+	</head>
+
+	<body>
+		<div style="position:absolute; top:10px; right:10px; z-index:99;"><img src="img/logoUniovi.png" style="border:none; box-shadow:none"/></div>
+		<div class="reveal">
+			<div class="slides">
+				<section data-transition="cube">
+					<h1>Bluetooth Security</h1>
+					<p></p>
+						<small style="margin-top:30px;">
+							Alejandro Urbano Álvarez<br />
+							<span style="font-size:0.8em; margin-top:20px; display:block">Redes y Servicios Móviles - 2013</span>
+						</small>
+				</section>
+				<section data-transition="slide">
+					<h2>Bluetooth Security</h2>
+					<ul style="margin-top:20px;">
+						<li>Introducción</li>
+						<li>Mecanismos de seguridad existentes</li>
+						<li>Problemas de seguridad</li>
+						<li>Blue-jacking</li>
+						<li>Blue-bugging</li>
+						<li>Blue-... : Otros ataques</li>
+						<li>Soluciones y estado actual</li>
+					</ul>
+				</section>
+				<section data-transition="cube">
+					<section data-transition="cube">
+						<h2>Introducción</h2>
+						
+						<ul>
+							<li>Tecnología de red inalámbrica de área personal.</li>
+							<li>Punto a multipunto</li>
+							<li>Usa la banda ISM (2.4 GHz)</li>
+						</ul>
+					</section>
+					<section data-transition="cube">
+						<h2>Amenazas</h2>
+						
+						<ul>
+							<li><b>Confidencialidad</b>: Acceso a información privada en dispositivos.</li>
+							<li><b>Integridad</b>: Cambios en la información durante la transmisión.</li>
+							<li><b>DoS</b>: Bloqueo de recursos.</li>
+						</ul>
+					</section>
+				</section>
+				<section data-transition="cube">
+					<section>
+						<h2>Estructura</h2>
+						
+						<img src="img/security_implementation.png" /><br />
+						<small>Comparativa entre Bluetooth y ISO OSI</small>
+						<p style="margin-top:20px"><small style="font-size:0.4em">Cathal Mc Daid. "Bluetooth security - Part 2." Internet: palowireless.com/bluearticles/cc2_security2.asp, March 2001 [October 2013]</small></p>
+						
+						<aside class="notes">
+							<ul>
+								<li>Info de seguridad se guarda en servicios y dispositivos</li>
+								<li>El acceso se permite o en el protocolo, o en la aplicacion</li>
+								<li>Asegura seguridad/encriptacion antes de conectar con la app</li>
+								<li>Inicia el proceso en el dispositivo</li>
+								<li>Inicia el enlace y el PIN el usuario (o PIN por app)</li>
+							</ul>
+						</aside>
+					</section>
+					
+					<section>
+						<h2>Mecanismos de seguridad</h2>
+						<ul>
+							<li>Se especifican 3 modos según el servicio</li>
+							<li>El modo determina en qué capa se gestiona la seguridad.</li>
+							<li>Objetivo: Mejorar la flexibilidad y usabilidad del sistema</li>
+						</ul>
+						
+						<aside class="notes">
+							Se busca permitir que unos servicios requieran contraseña, otros no, otros autorizacion manual...<br />
+							Ejemplo: Service Discovery, abierto. Modem/Compartir internet: cerrado.
+						</aside>
+					</section>
+					<section>
+						<h2>Modo 1: Sin seguridad</h2>
+						<ul>
+							<li>La única seguridad es la que proporciona el sistema de conexión (saltos y corto alcance)</li>
+							<ul>
+								<li><b>Saltos</b>: Los dispositivos usan "data-hopping", un sistema por el que cambian de frecuencia hasta 1600 veces por segundo, entre 79 frecuencias diferentes.</li>
+								<li><b>Corto alcance</b>: Casi todas las conexiones son a menos de 10 metros.</li>
+							</ul>
+						</ul>
+					</section>
+					<section>
+						<h2>Modo 2: Nivel de servicio</h2>
+						<ul>
+							<li>Los procesos de seguridad ocurren <b>después</b> de realizar el enlace.</li>
+							<li>El acceso depende del dispositivo (Dispositivos de confianza acceden a todos los servicios)</li>
+							<li>Existen niveles para acceder a los servicios</li>
+							<ol>
+								<li>Abierto a cualquier dispositivo</li>
+								<li>Requiere autenticación</li>
+								<li>Requiere autenticación y autorización</li>
+							</ol>
+						</ul>
+						
+						<p align="left"><small>Müller T., Bluetooth Security Architecture, 1999-07-15</small></p>
+						
+						<aside class="notes">
+							* De confianza: acceden a todos los servicios, con relación fija<br />
+							* Desconocidos: Sin relacion permanente, acceso a servicios limitado.<br />
+							* Modo 3: Acceso automatico a disp. de confianza. Los demas requieren autorizacion manual<br />
+							* Modo 2: No hace falta autorizacion<br />
+							* Modo 1: Se permite usar el servicio directamente.
+						</aside>
+					</section>
+					<section>
+						<h2>Modo 3: Nivel de enlace</h2>
+						<ul>
+							<li>Procesos de seguridad <b>antes</b> de establecer el enlace</li>
+							<li>Seguridad con clave simétrica</li>
+							<li>Implementación de seguridad estandarizada y disponible en las especificaciones</li>
+							<li>Usa PIN, encriptación, secuencias aleatorias...</li>
+						</ul>
+						
+						<aside class="notes">
+							* PIN: hasta de 128 bits
+							* Claves de conexion, 128 bits aleatorias.
+							* Clave privada de encriptacion, generada en cada transmision
+							* RAND: Clave de 128 bits generada aleatoriamente en el dispositivo cada cierto tiempo. Se usa como input para las demas claves.
+							* Todos los dispositivos bluetooth incorporan el generador de numeros aleatorios.
+						</aside>
+					</section>
+				</section>
+				
+				<section data-transition="cube">
+					<section data-transition="cube">
+						<h2>Problemas de seguridad</h2>
+						<ul>
+							<li>Se autentifican dispositivos, no usuarios.</li>
+							<li>Modo de seguridad global para el dispositivo</li>
+							<li>Depende de claves, PIN, y direcciones.</li>
+							<li>Aplicaciones con versiones antiguas no usan el gestor de servicios</li>
+						</ul>
+						
+						<aside class="notes">
+							Continua!
+						</aside>
+					</section>
+					
+					<section data-transition="cube">
+						<h2>Problemas de seguridad</h2>
+						<ul>
+							<li>No se puede asegurar tráfico unidireccional</li>
+							<li>Sólo se asegura la conexión, una vez establecida se asume segura.</li>
+							<li>Normalmente el PIN es lo único necesario, y muchas veces se deja el valor por defecto (1234, 0000...)</li>
+							<li>Es posible impersonar a otro dispositivo si se conocen sus claves.</li>
+						</ul>
+					</section>
+				</section>
+				
+				<section>
+					<section>
+						<h1>Ataques</h1>
+					</section>
+					
+					<section>
+						<h2>Blue-jacking</h2>
+						<ul>
+							<li>Consiste en enviar mensajes no solicitados de texto a dispositivos</li>
+							<li>No altera ni daña el dispositivo de destino</li>
+							<li>Si se envian suficientes mensajes es posible realizar un ataque DoS al dispositivo</li>
+						</ul>
+					</section>
+					
+					<section>
+						<h2>Blue-bugging</h2>
+						<ul>
+							<li>Consiste en ejecutar comandos AT en dispositivos específicos</li>
+							<li>Se consigue un control total del dispositivo, es posible realizar llamadas, enviar mensajes...</li>
+							<li>Para llevar a cabo el ataque se usan conexiones RFCOMM.</li>
+							<li>No obstante en casi todos los casos el usuario debe aceptar la conexión</li>
+					</section>
+					
+					<section>
+						<h2>Blue-bugging</h2>
+						<ul>
+							<li>Resultados de un estudio sobre ataques Bluetooth en 2013<small>[1]</small></li>
+							<ul>
+								<li>El <b>27%</b> de usuarios tiene el Bluetooth activado</li>
+								<li>El <b>50%</b> de esos usuarios acepta una conexión entrante de un dispositivo desconocido</li>
+							</ul>
+						</ul>
+						<p align="left"><small>[1] MALLA, Libia; YACCHIREMA, Diana. Ataque bluebugging en dispositivos móviles Bluetooth.</small></p>
+					</section>
+					
+					<section>
+						<h2>Otros ataques</h2>
+						<ul>
+							<li><b>Blue-snarf</b>: Depende de un fallo en algunos dispositivos, permite obtener datos privados (contactos, fotos, calendario...)</li>
+							<li><b>Blue-smack</b>: Ataque DoS mediante un exploit en la capa L2CAP enviando muchas peticiones de ping.</li>
+							<li><b>Bluetrack</b>: Software para monitorizar usuarios Bluetooth.</li>
+							<li><b>Spoofing</b>: Suplantación de identidad.</li>
+							<li><b>Crackear el PIN</b>: Muy pocos digitos y falta de protección ante este ataque.</li>
+						</ul>
+						<p align="left"><small>Más ataques en: <i>AVESTRO, Joyce E.; VIRAY, Ben-Hur C. Denial of Service Attack on Mobile Phones using Java Mobile Bluetooth API.</i></small></p>
+						
+						<aside class="notes">
+							* snarf: no alerta al dueño, se puede leer/copiar todo, se debe a un fallo del protocolo OBEX<br />
+							* smack: Desencadena un buffer overflow<br />
+							* PIN: La mayor vulnerabilidad de todas. 10000 combinaciones posibles<br />
+						</aside>
+					</section>
+					
+					<section>
+						<h2>Spoofing</h2>
+						<img src="img/spoofing.png" align="left" />
+						<ol class="inlined" style="margin-left:490px">
+							<li><b>A</b> y <b>B</b> usan la clave de <b>A</b> como clave de enlace.</li>
+							<li><b>C</b> se comunica con <b>A</b>, usando la misma clave (de <b>A</b>)</li>
+							<li><b>B</b> puede usar la clave que conoce de <b>A</b> para desencriptar la comunicación.</li>
+						</ol>
+						<aside class="notes">
+							
+						</aside>
+					</section>
+					
+					<section>
+						<h2>Crackear el PIN</h2>
+						<ul>
+							<li>La mayor vulnerabilidad de Bluetooth</li>
+							<li>Un artículo de DataGenetics <small>[1]</small> señala lo siguiente:</li>
+							<li>Aproximadamente el <b>10%</b> de los números PIN es '1234', seguido de '1111', y '0000'</li>
+							<li>El <b>26%</b> de los números PIN están entre 20 posibilidades.</li>
+						</ul>
+						
+						<p align="left"><small>[1] http://www.datagenetics.com/blog/september32012/</small></p>
+						
+						<aside class="notes">
+							El trabajo se basa en una base de datos de contraseñas reales, para el estudio usó unicamente las de 4 digitos, obteniendo 3.4 millones de códigos.
+						</aside>
+					</section>
+					
+					<section>
+						<img src="img/grid.png" height="90%" />
+						<p><small>Densidad de uso de diferentes números. Abajo izda 0000, arriba dcha 9999</small></p>
+						
+						<aside class="notes">
+							* La diagonal son los 4 iguales<br />
+							* La densidad de abajo izda se debe a fechas MMYY o DDMM (y:31, x:12)<br />
+							* Existen muchos códigos empezando por 19, obviamente porque casi todo el mundo en el que baso el estudio nacio en esos años.<br />
+							* Curiosamente 1972 es el más popular (22:1), se puede incluso ver que el mayor porcentaje se concentra en 1973-1987, gente de 26-40 años.<br />
+							* Puntos aislados por encima de la diagonal son barridos (2345, 4321...)
+						</aside>
+					</section>
+					
+					<section>
+						<h2>¿Es factible?</h2>
+						<img src="img/pin_cracking_time.png" />
+						<p><small>Cracking pasivo: Segundos que se tardan en crackear diferentes tamaños de PIN</small></p>
+						<p><small style="font-size:0.4em">LEE, Chi Shing. Bluetooth Security Protocol Analysis and Improvements. 2006. Tesis Doctoral. San Jose State University.</small></p>
+						<aside class="notes">
+							Se puede realizar un cracking pasivo o activo. El pasivo es el mostrado en la figura, propuesto en 2004.
+							Requiere capturar algunos paquetes del proceso de enlace de 2 dispositivos para llevar a cabo el crackeo.
+							Para disposivitos ya enlazados, es posible forzar una reautentificacion<br />
+							El ataque activo trata de iniciar una autenticacion con un PIN aleatorio, es necesario encontrar el PIN antes del siguiente intento<br />
+							Bluetooth incorpora un tiempo de espera exponencial tras cada intento fallido, basado en la MAC. Un atacante puede variar su MAC
+						</aside>
+					</section>
+				</section>
+				
+				<section>
+					<h2>Soluciones</h2>
+					<ul>
+						<li>Casi todos los autores coinciden en lo mismo<small>[1][2]</small>:</li>
+						<ul>
+							<li>Apagar Bluetooth salvo cuando se use.</li>
+							<li>No activar modo visible</li>
+							<li>Reducir al máximo la potencia de emisión</li>
+							<li>No usar un PIN simple ni de 4 digitos a ser posible</li>
+						</ul>
+						<li>En general se dice que la seguridad actual es la justa para el trabajo que desempeña<small>[3]</small>.</li>
+					</ul>
+					<p align="left" style="font-size:0.7em"><small>
+						[1] MISHRA, Praveen Kumar. BLUETOOTH SECURITY THREATS.<br />
+						[2] MALLA, Libia; YACCHIREMA, Diana. Ataque bluebugging en dispositivos móviles Bluetooth.<br />
+						[3] Cathal Mc Daid. "Bluetooth security - Part 3." Internet: palowireless.com/bluearticles/cc2_security3.asp, March 2001 [October 2013]
+					</small></p>
+					
+					<aside class="notes">
+						¿Quien va a querer pillar tu mp3, o tu foto?
+					</aside>
+				</section>
+				
+				<section>
+					<h1>Muchas Gracias por su tiempo</h1>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				overview: true,
+
+				theme: Reveal.getQueryHash().theme, 
+				transition: Reveal.getQueryHash().transition || 'default', 
+				backgroundTransition: 'slide',
+
+				dependencies: [
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
