@@ -1,0 +1,258 @@
+
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>HTML + CSS</title>
+		
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/aurbano.css" id="theme">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		<style type="text/css">
+		li{
+			margin-bottom:20px !important;
+		}
+		</style>
+	</head>
+
+	<body>
+		<div style="position:absolute; top:10px; right:10px; z-index:99;"><img src="img/logoUniovi.png" style="border:none; box-shadow:none"/></div>
+		<div class="reveal">
+			<div class="slides">
+				<section data-transition="cube">
+					<h1>HTML+CSS</h1>
+					<p></p>
+						<small style="margin-top:30px;">
+							Alejandro Urbano Álvarez &bull; Nicolas Lozano Arguelles<br />
+							<span style="font-size:0.8em; margin-top:20px; display:block">Curso JavasScript Básico - 2014</span>
+						</small>
+				</section>
+				<section data-transition="slide">
+					<h2>HTML + CSS</h2>
+					<ul style="margin-top:20px;">
+						<li>Introducción</li>
+						<li>Conceptos básicos HTML</li>
+						<li>CSS: Intro y selectores</li>
+						<li>Posicionamiento CSS</li>
+						<li>Bootstrap</li>
+					</ul>
+				</section>
+				<section data-transition="cube">
+					<section data-transition="cube">
+						<h2>Introducción</h2>
+						
+						<ul>
+							<li>Describe la <b>estructura</b> de una página</li>
+						</ul>
+<pre><code data-trim>
+&lt;!DOCTYPE html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Mi primera pagina&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        Contenido
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+					</section>
+					<section data-transition="cube">
+						<h2>Introducción: Partes</h2>
+						
+						<ul>
+							<li><b><code>head</code></b>: Cabecera, describe la página, e incluye elementos extra (como CSS).</li>
+							<li><b><code>body</code></b>: Cuerpo, la página en si.</li>
+						</ul>
+					</section>
+					<section data-transition="cube">
+						<h2>Elementos más comunes</h2>
+						
+						<ul>
+							<li><b><code>h1, h2...</code></b>: Encabezados</li>
+							<li><b><code>p</code></b>: Párrafo</li>
+							<li><b><code>div</code></b>: Contenedor, bloque básico al construir una web</li>
+							<li><b><code>img</code></b>: Imágen</li>
+							<li><b><code>a</code></b>: Enlace</li>
+							<li><b><code>table</code></b>: Tabla</li>
+						</ul>
+					</section>
+					<section data-transition="cube">
+						<h2>Elementos más comunes</h2>
+						
+<pre><code data-trim>
+&lt;h1&gt;Mi primera web&lt;/h1&gt;
+&lt;p&gt;Tiene un p&#225;rrafo&lt;/p&gt;
+&lt;div class=&quot;caja&quot;&gt;
+    &lt;h2&gt;Seccion 1&lt;/h2&gt;
+    &lt;p&gt;Esta seccion va en un div, con una clase que me he inventado.&lt;/p&gt;
+    &lt;p&gt;Ir a &lt;a href=&quot;http://google.com&quot;&gt;Google&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Una celda de una table&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+</code></pre>
+					</section>
+					<section data-transition="cube">
+						<h2>Elementos más comunes</h2>
+						<img src="img/web1.png" height="241" width="419" alt="Web">
+					</section>
+				</section>
+				<section data-transition="cube">
+					<section>
+						<h2>CSS</h2>
+						
+						<ul>
+							<li>HTML describe estructura</li>
+							<li>CSS describe <b>cómo debe verse</b> la página</li>
+							<hr />
+							<li>Veamos el ejemplo anterior con algo de CSS:</li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>CSS: Ejemplo</h2>
+
+						<p>Antes y después</p>
+						
+						<img src="img/web1.png" height="241" width="419" alt="" style="border:none; margin-bottom: 75px;">
+						<img src="img/web2.png" height="302" width="367" alt="" style="border:none;">
+					</section>
+					
+					<section>
+						<h2>Añadir CSS a tu página</h2>
+						<ul>
+							<li>Puede ir en un archivo propio (<b>.css</b>)</li>
+							<li>Incluido en el <b><code>head</code></b> de la página</li>
+							<li>En el propio elemento <b><code>style=""</code></b></li>
+						</ul>
+					</section>
+
+					<section>
+						<h2>Añadir CSS a tu página</h2>
+						
+
+						<pre><code data-trim>
+&lt;head&gt;
+    &lt;!-- Modo 1: Archivo externo --&gt;
+    &lt;link type=&quot;text/css&quot; rel=&quot;stylesheet&quot; href=&quot;estilos.css&quot;/&gt;
+    &lt;!-- Modo 2: Incluido en el head --&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        p{
+            color: red;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;!-- Modo 3: En el mismo elemento --&gt;
+    &lt;p style=&quot;color: blue&quot;&gt;Esto se ver&#225; de color azul&lt;/p&gt;
+&lt;/body&gt;
+						</code></pre>
+					</section>
+				</section>
+				<section data-transition="cube">
+					<section data-transition="cube">
+						<h2>CSS: Selectores básicos</h2>
+						<ul>
+							<li><b>Elemento</b>: Simplemente usando el nombre del elemento HTML</li>
+							<li><b>Clase</b>: Seleccionan elementos con el atributo <b>class=""</b></li>
+							<li><b>Id</b>: Selecciona elementos con <b>id=""</b>, debe ser única.</li>
+						</ul>
+					</section>
+
+					<section data-transition="cube">
+						<h2>Tipos de selector</h2>
+						<pre><code class="css">
+	elemento{ }
+
+	.clase{ }
+
+	#id{ }
+						</code></pre>
+					</section>
+
+					<section data-transition="cube">
+						<h2>Selectores avanzados</h2>
+						<ul>
+							<li>Varios elementos a la vez:
+<br><pre><code data-trim>
+div, .clase1, p{
+	color: red;
+}</code></pre>
+							</li>
+							<li>Elementos dentro de elementos
+<br><pre><code data-trim>
+div p{
+	color: red;
+}</code></pre></li>
+							<li>Hijos directos
+<br><pre><code data-trim>
+h1 > span{
+	color: #ccc;
+}</code></pre></li>
+							<li>Pseudo-clase
+<br><pre><code data-trim>
+a:hover{
+	text-decoration: underline;
+}</code></pre></li>
+						</ul>
+					</section>
+				</section>
+
+				<section data-transition="cube">
+					<section data-transition="cube">
+						<h2>Posicionamiento CSS</h2>
+						<p>Los elementos siguen el "modelo de caja"</p>
+						<p><img src="http://bit.ly/OoKWYd"/></p>
+					</section>
+
+					<section data-transition="cube">
+						<h2>Nivel 1: Posición</h2>
+						<ul>
+							<li><b><code>position</code></b>: Determina cómo se va a colocar el elemento</li>
+							<li><b><code>static</code></b>: Por defecto, se coloca pegando arriba a la izquierda con los anteriores elementos.</li>
+							<li><b><code>absolute</code></b>: Flotando, se coloca usando <code>top/bottom</code> y <code>left/right</code></li>
+							<li><b><code>relative</code></b>: Mezcla entre static y absolute.</li>
+						</ul>
+					</section>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+				overview: true,
+
+				theme: Reveal.getQueryHash().theme, 
+				transition: Reveal.getQueryHash().transition || 'default', 
+				backgroundTransition: 'slide',
+
+				dependencies: [
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
